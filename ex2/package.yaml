@@ -2,9 +2,9 @@ name:                ex2
 version:             0.1.0.0
 github:              "githubuser/ex2"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2017 Author name here"
+author:              "Jonatan Borkowski"
+maintainer:          "jonatanborkowki@wp.pl"
+copyright:           "2017 Jonatan Borkowski"
 
 extra-source-files:
 - README.md
@@ -46,3 +46,6 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - ex2
+    - hspec == 2.*
+    - hspec-core == 2.*
+    - QuickCheck == 2.10.1
