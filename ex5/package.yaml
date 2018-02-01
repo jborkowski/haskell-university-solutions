@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - mtl
 - containers
+- haskeline >= 0.7 && <0.8
 
 library:
   source-dirs: src

@@ -1,0 +1,55 @@
+{-# LANGUAGE PackageImports #-}
+
+module Main where
+
+import qualified Data.Map.Strict as Map
+import Data.List
+import Control.Monad
+import Control.Monad.State
+import ReversePolishNotationWithState
+import System.Console.Haskeline
+
+main :: IO (a, Map.Map String String)
+main = runStateT (forever appState) Map.empty
+
+appState :: StateT (Map.Map String String) IO ()
+appState = do
+  mayLine <- lift (getInputLine "> ")
+  case mayLine of
+    Nothing   -> lift (outputStrLn "Goodbye.")
+    Just line ->
+      resultsState <- get -- get from state
+      let result = do
+          replaced <- replaceAllResults line resultsState
+          result   <- addErrorMsg (solveEquation (unwords replaced)) "Can't calculate result of provided equation"
+          return result
+        
+  case result of 
+    Left msg  -> lift (print msg)
+    Right res -> do
+      let newKey = "res" ++ show (Map.size resultsState)
+      put (Map.insert newKey (show res) resultsState)   
+      lift (print (show res))
+
+
+-- process :: String -> IO ()
+-- process line = do
+--   let res = parseExpr line
+--   case res of
+--     Left err -> print err
+--     Right ex -> case eval ex of
+--       Nothing -> putStrLn "Cannot evaluate"
+--       Just result -> putStrLn $ ppexpr result
+
+-- main1 :: IO ()
+-- main1 = runInputT defaultSettings loop
+--   where
+--   loop = do
+--     minput <- getInputLine "> "
+--     case minput of
+--       Nothing -> outputStrLn "Goodbye."
+--       Just input -> (liftIO $ process input) >> loop
+
+
+-- process :: String -> IO ()
+-- process line = do
